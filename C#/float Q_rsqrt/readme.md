@@ -1,5 +1,7 @@
 Invert square approximate method much quicker than 1/sqrt(x)
 
+this is important for normalizing vectors
+
 float Q_rsqrt( float number )
 {
 	long i;
