@@ -4,9 +4,6 @@
 
 package helper_functions;
 
-import java.lang.reflect.Array;
-import java.util.Collection;
-
 public class DeepClone{   
     public static int[][] deepCopy(int[][] original) {
         int[][] copy = original.clone();
