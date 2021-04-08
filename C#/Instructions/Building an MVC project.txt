@@ -1,0 +1,319 @@
+Building an MVC project{
+    Create a new project{
+        Open Visual Studio
+        Create a new project
+        Select ASP.NET Core Web App (Model-View-Controller)
+        Create project name
+        Set project location
+        choose target framework: Latest LTS version
+        choose authentication type: (none)
+        Select configure for https
+        deselect docker
+        deselect razor runtime compilation
+    }
+    Install Nuget Packages{
+        Select tools>Select Nuget Package Manager>Select Manage Nuget Packages for Solution
+        Microsoft.EntityFrameworkCore
+        Microsoft.EntityFrameworkCore.SqlServer
+        Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation (3.1.13 stable)
+        Microsoft.EntityFrameworkCore.Tools
+    }
+    Add RunTimeCompilation to code(this allow html and other code to be modified and updated during runtime){
+        in startup class
+        in ConfigureServices method
+        add .AddRazorRuntimeCompilation() to services.AddControllersWithViews()
+    }
+    Note: Controller names will follow the fileNameController format like HomeController and have a corresponding foldername in views that matches fileName like \Home\
+    Create a Model(to creating the table in the database){
+        Right Click Model>Select Add>Select Class
+        Name Model>Select Add
+    }
+    Edit the Model{
+        import packages: using System.ComponentModel.DataAnnotations;
+        Add a Key property for the table using the [Key] api public int type with get set
+        Add the [Required] api for any table values that are required when entering it in the table
+        Add all other properties with get set methods, most entries will use public string
+    }
+    Create a context Model(to add the db context to application).same as Create a Model method
+    Edit the context Model{
+        import packages: using Microsoft.EntityFrameworkCore;
+        inherit from: DbContext
+        Create constructor pass DbContextOptions<ClassName> options pass options to base
+        Example:
+            public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options){}
+        Create method DbSet<'\Model used to create table\'> with getter and setter, public
+    }
+    Add connection string{
+        in appsettings.json
+        before logging
+        type "ConnectionStrings":{
+            "ConnectionName": "Server=\'instance name with escape char at \ between server name and instance name\';Database=\'databaseName\';Trusted_Connection=True;MultipleActiveResultSets=True"
+        }
+        Example:
+            "ConnectionStrings": {
+            "DefaultConnection": "Server=LAPTOP-8LQ6AHN5\\DBDBOOKSET;Database=BookListMVC;Trusted_Connection=True;MultipleActiveResultSets=True"
+            },
+    }
+    Configure connection string{
+        in startup class
+        import packages: using ProjectName.Models;using Microsoft.EntityFrameworkCore;
+        in public void ConfigureServices method
+        add services.AddDbContext<\'db context model\'>pass \'options=>options.UseSqlServer(Configuration.GetConnectionString("\'ConnectionName\'")));
+    }
+    Add a migration(sets up and adds table and db to instance, may be used to create new columns in the database){
+        Select tools>Select Nuget Package Manager>Select Package Manager Console
+        in the package manager console
+        type add-migration \'migrationName\'
+        enter
+        type update-database
+    }
+    Create a new controller{
+        Right click on Controllers>Click Add>Click Controller
+        Click MVC Controller - Empty>Click Add
+        Name Controller->""\'name\'Controller"
+        Note: the default method created public IActionResult Index(){return View();} is how the controller links the with the page
+    }
+    Edit the controller{
+        import packages: using /'projectName/'.Models;using Microsoft.EntityFrameworkCore;
+        Create a property from the database context object (called this.db for short), private readonly
+        Create a property from the database model object with getter and setter, use the [BindProperty] Api above the property, public
+        Create a constructor that passes a database context object and sets the above object, public
+        Create an update action, a with a return type of public IActionResult, to point to a new update view and pass a nullable potential index int make nullable parameter by (int? id)
+            in the body of the intialize the database model object property
+            check if the passed value is null, if true return view(the empty database object property);
+            then set the database object property, the row, equal to this.db.\'Db context property of DbSet<xxx> type\'.FirstOrDefault(u=>u.\'primary db key\'==\'passed value\')
+            check that a row was returned to the database object property, if the row equals null and return NotFound();
+            return View(\'database object property,row\')
+        Create a second update method, this time will be a post with that overloads the original, set api above to [HttpPost] and [ValidateAntiForgeryToken] this update method, pass nothing to method,  check if ModelState.IsValid,
+            if valid
+                check if row primary key from the database object is 0, if it is this is for a create post and add this.db.\'Db context property of DbSet<xxx> type\.Add(database object from properties);
+                otherwise you will need to update the database with the values from the object like this.db.\'Db context property of DbSet<xxx> type\.Update(database object from properties);
+                then
+                this.db.SaveChanges();
+                then return RedirectToAction("\'database page\'");
+            then
+            return View(Database object);
+        Add API calls to controller class{
+            below the Index method
+            add /'#region API Calls/'
+            add a method to list the table rows use the [HttpGet] API before the method, make the method public async and return type Task<IActionResult>, pass nothing to this.
+                in the body return Json(new {data=await this.db.\'Db context property of DbSet<xxx> type called db_set for short\'.ToListAsync()});
+
+            if a delete method is needed
+            add a method to delete a row, use the [HttpDelete] API followed by a method that is public and async that returns type Task<IActionResult and passes an integer that should relate to the primary key named Id for short of the database
+            in the body do the following:
+                get an individual row by doing var row = await this.db.\'db_set'\.FirstOrDefaultAsync(u=>u.\'primary key var'\==Id)
+                check that row isn't null if it is return a new toast Json(new{success=false,message="\'some error message\'"})
+                add this.db.\'db_set'\.Remove(row);
+                add await this.db.SaveChangesAsync();
+                return a toast Json(new{success=true,message="\'some success message\'"})
+            add /'#endregion/'
+        }
+    }
+    Create databasePage{
+        right click Views>click Add>Click New Folder
+        rename the folder with the name of the new controller
+        Example:
+            for BooksController controller rename folder Books
+        right click newly named folder>click Add view>click Razor View - Empty>Click Add
+        Name the view Index>Click Add
+        Note: Not a partial view and use layout page
+    }
+    Edit databasePage{
+        type: ==================================================================
+            <br />
+            <div class="container row p-0 m-0">
+                <div class="col-6">
+                    <h2 class="text-info">'\page title\'</h2>
+                </div>
+                <div class="col-3 offset-3">
+                    <a asp-action="/'update page name or method action name from the db controller/'" asp-controller="/'filename of the filenamecontroller/'" class="btn btn-info form-control text-console border-console bg-navbar-console">
+                        \'add new row button\'
+                    </a>
+                </div>
+                <div class="col-12 border p-3 border-console">
+                    <table id="DT_load" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>1st column name</th>
+                                <th>2nd column name</th>
+                                <th>3rd column name</th>
+                                <th>etc column name</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+            @section Scripts{
+                <script src="~/js/\'javascript file name@{/* TODO: update */}\'.js"></script>
+            }
+        ========================================================================
+    }
+    Add link to databasepage{
+        on the view of the page you want the link to exist
+        add to the place you want the link
+        may add context including <li class="navitem">
+        <a class=nav-link text-dark" asp-area=" asp-controller="same name as the controller sans the word controller" asp-action="same name as the database page or Index as above">\'Link text'\</a>
+        if context is included close it like </li>
+    }
+    Add Third party tools including Alerts, Toasts, and lists{
+        In _Layout.cshtml shared view
+        add the following to head:
+            <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
+        add the following to footer
+            <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    }
+    Create Javascript file that will display and delete{
+        open wwwroot>right click js>click add>click new item...
+        Click javascript file>type fileName>click add
+        type: ==================================================================
+        type: var dataTable;
+        ========================================================================
+        type: ==================================================================
+        $(document).ready(function(){
+            loadDataTable();
+        });
+        ========================================================================
+        type: ==================================================================
+        function loadDataTable(){
+            dataTable=$('#DT_load').DataTable({
+                "ajax":{
+                    "url": "/\'filename for fileNameController\'/'\get database method from controller class(the one using the httpget api)\'",
+                    "type": "Get",
+                    "datatype":"json"
+                },
+                "columns": [
+                    {"data": "1st column name first char of var must be lowercase", "width": "20%"},
+                    {"data": "2nd column name first char of var must be lowercase", "width": "20%"},
+                    {"data": "3rd column name first char of var must be lowercase", "width": "20%"},
+                    {"data": "etc column name first char of var must be lowercase", "width": "20%"},
+                    {
+                        "data": "\'primary key first char of var must be lowercase\'" ,
+                        "render": function(data) {
+                            return `
+                        <div class="text-center">
+                            <a href="/\'filename for fileNameController\'/'\update database method from controller class\'?\'primary key\'=${data}" class='btn btn-success text-while' style='cursor:pointer; width:70px'>
+                                \'this is a button to update the row, here is the text for the button'\
+                            </a>
+                            &nbsp;
+                            <a class='btn btn-danger text-white' style='cursor:pointer; width:70px;' onclick=Delete('/\'filename for fileNameController\'/'\delete database row method from controller class\'?\'primary key\'='+${data})>
+                                \'this is a button to delete the row, here is the text for the button\'
+                            </a>
+                        </div>`;
+                        }, "width":"40%"
+                    }
+                ],
+                "language":{
+                    "emptyTable": "\'text indicating no data was found\'"
+                },
+                "width": "100%"
+            });
+        }
+        ========================================================================
+        type: ==================================================================
+        function Delete(url){
+            swal({
+                title: "\'confirmation text\'",
+                text: "\'detailed info\'",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            }).then((willDelete)=>{
+                if (willDelete) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: url,
+                        success: function (data) {
+                            if (data.success) {
+                                toastr.success(data.message);
+                                dataTable.ajax.reload();
+                            }
+                            else {
+                                toastr.error(data.message);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        ========================================================================
+    }
+    Create update page for database{
+        click views>right click folder named for its controller>Click Add>Click View...
+        Click Razor View - Empty>Click Add>type page name corresponding to update method in the controller>Click Add
+    }
+    Edit update page for database{
+        use the database model by @model \'Project name\'.Models.\'database model class name\'
+        Type:===================================================================
+            <br/>
+            <h2 class="text-info">@(Model.\'primary key property from database model class\'!=0?"\'some text for edit\'":"\'some text for create\'") \'row type being created\'</h2>
+
+            <div class="border container" style="padding:30px;">
+                <form method="post">
+                    @if (Model.\'primary key property from database model class\' != 0) {
+                        <input type="hidden" asp-for="\'primary key property from database model class\'" />
+                    }
+                    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                    <div class="form-group row">
+                        <div class="col-3">
+                            <label asp-for="\'1st column name\'"></label>
+                        </div>
+                        <div class="col-6">
+                            <input asp-for="'1st column name\'" class="form-control" />
+                            <span asp-validation-for="'1st column from database model class\'" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-3">
+                            <label asp-for="\'2nd column name\'"></label>
+                        </div>
+                        <div class="col-6">
+                            <input asp-for="'2nd column name\'" class="form-control" />
+                            <span asp-validation-for="'2nd column from database model class\'" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-3">
+                            <label asp-for="\'3rd column name\'"></label>
+                        </div>
+                        <div class="col-6">
+                            <input asp-for="'3rd column name\'" class="form-control" />
+                            <span asp-validation-for="'3rd column from database model class\'" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-3">
+                            <label asp-for="\'etc column name\'"></label>
+                        </div>
+                        <div class="col-6">
+                            <input asp-for="'etc column name\'" class="form-control" />
+                            <span asp-validation-for="'etc column from database model class\'" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row row">
+                        <div class="col-3 offset-3">
+                            <button type="submit" class="btn btn-primary form-control">
+                                @(Model.\'primary key property from database model class\'!=0?"\'some text for update or Edit\'":"\'some text for create\'") \'row type being created\'
+                            </button>
+                        </div>
+                        <div class="col-3">
+                            <a asp-action="'\name of the primary database page, Index'\'" class="btn btn-success form-control">
+                                \'string of button describing to go back to Index, or database page\'
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            @section scripts{
+            <partial name="_ValidationScriptsPartial"/>
+            }
+        ========================================================================
+    }
+}
