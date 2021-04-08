@@ -5,3 +5,4 @@ DataAccess get connection string to db<p>
 Helpers connects to db<p>
 Ships.cs is the model used, which maps values from the db to the clas properties.<p>
 invoke.snippet.cs is how each individual request is add.<p>
+TableRetrieval.cs is an alternative class to helpers and dataaccess and uses a template for models used to retrieve the database<p>
