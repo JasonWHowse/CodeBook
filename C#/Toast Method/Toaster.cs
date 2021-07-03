@@ -1,12 +1,12 @@
 using System;
-using System.Windows.Threading;
-using System.Windows.Controls;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace src {
     class Toaster {
-        private Border Toastie = new Border();
+        private readonly Border Toastie = new Border();
         private readonly string boarderXName = "Toastie";
         private readonly CornerRadius borderCornerRadius = new CornerRadius(10.0);
         private readonly int borderWidth = 160;
@@ -19,12 +19,14 @@ namespace src {
         private readonly double borderLeftMargin = 0;
         private readonly Thickness borderThickness = new Thickness(1.0);
 
-        private TextBlock ToastieText = new TextBlock();
+        private readonly TextBlock ToastieText = new TextBlock();
         private readonly string textBlockXName = "ToastieText";
         private readonly TextAlignment textBlockTextAlignment = TextAlignment.Center;
-        private readonly Thickness textBlockMargin = new Thickness(1.0, 1.0, 1.0, 1.0);
+        private readonly Thickness textBlockMargin = new Thickness(1.0);
         private readonly TextWrapping textBlockTextWrapping = TextWrapping.Wrap;
         private readonly VerticalAlignment textBlockVerticalAlignment = VerticalAlignment.Center;
+        private readonly double textBlockFontSize = 12.0;
+        private readonly string textBlockFontFamily = "Segoe UI";
 
         private Color PrimaryBackgroundColor;
         private Color PrimaryBorderColor;
@@ -65,6 +67,8 @@ namespace src {
             SetTextBlockMargin(textBlockMargin);
             SetTextBlockTextWrapping(textBlockTextWrapping);
             SetTextBlockVerticalAlignment(textBlockVerticalAlignment);
+            SetTextBlockFontSize(textBlockFontSize);
+            SetTextBlockFontFamily(textBlockFontFamily);
         }//private void InstatiateTextBlock() {
 
         private void SetColors() {
@@ -72,6 +76,22 @@ namespace src {
             SetWarningColors(Color.FromArgb(225, 125, 125, 0), Color.FromArgb(225, 255, 255, 0), Color.FromArgb(225, 255, 255, 0));
             SetErrorColors(Color.FromArgb(225, 125, 0, 0), Color.FromArgb(225, 255, 0, 0), Color.FromArgb(225, 255, 0, 0));
         }//private void SetColors() {
+
+        public void FlipTextBlockFontBold() {
+            if (ToastieText.FontWeight.Equals(FontWeights.Normal)) {
+                ToastieText.FontWeight = FontWeights.Bold;
+            } else {//if (ToastieText.FontWeight.Equals(FontWeights.Normal)) {
+                ToastieText.FontWeight = FontWeights.Normal;
+            }//else {
+        }//public void FlipTextBlockFontBold() {
+
+        public void FlipTextBlockFontItalics() {
+            if (ToastieText.FontStyle.Equals(FontStyles.Italic)) {
+                ToastieText.FontStyle = FontStyles.Normal;
+            } else {//if (ToastieText.FontStyle.Equals(FontStyles.Italic)) {
+                ToastieText.FontStyle = FontStyles.Italic;
+            }//else {
+        }//public void FlipTextBlockFontItalics() {
 
         public Border GetToast() {
             return Toastie;
@@ -154,6 +174,14 @@ namespace src {
             PrimaryBorderColor = boarderColor;
             PrimaryFontColor = fontColor;
         }//public void SetPrimaryColors(Color backgroundColor, Color boarderColor, Color fontColor) {
+
+        public void SetTextBlockFontFamily(string textBlockFontFamily) {
+            ToastieText.FontFamily = new FontFamily(textBlockFontFamily);
+        }//public void SetTextBlockFontFamily(string textBlockFontFamily) {
+
+        public void SetTextBlockFontSize(double textBlockFontSize) {
+            ToastieText.FontSize = textBlockFontSize;
+        }//public void SetTextBlockFontSize(double textBlockFontSize) {
 
         public void SetTextBlockMargin(Thickness margin) {
             ToastieText.Margin = margin;
