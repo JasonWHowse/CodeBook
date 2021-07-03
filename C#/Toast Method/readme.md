@@ -1,4 +1,4 @@
-#Toast API for WPF
+<h2>Toast API for WPF</h2>
 
 Generally to use this use the Toaster.cs class:<br>
 create a new Toaster object as a field in the form you want to use it in<br>
