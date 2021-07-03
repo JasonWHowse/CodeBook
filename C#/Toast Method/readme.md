@@ -6,7 +6,7 @@ add the toast form object to the object you want to call it in, for example usin
 use the Children.Add( method to add the toast object using the GetToast method from the toast object.<br>
 <code>MainGrid.Children.Add(toast.GetThost());</code><br>
 Attributes of the toast object have default values the object is instantiated with but most can be modified to customize the toast.<br>
-to call hte toast use the PopToastie method on the object.<br>
+to call the toast use the PopToastie method on the object.<br>
 You will need to include a message, the toast color schema, and the duration in seconds for which you wish to call it.<br>
 for example:<br>
 <code>toast.PopToastie("Toast message", ToastColors.PRIMARY, 4);</code><br>
