@@ -47,30 +47,6 @@ namespace src {
             SetColors();
         }//public Toaster() {
 
-        private void SetColors() {
-            SetPrimaryColors(Color.FromArgb(225, 0, 125, 0), Color.FromArgb(225, 0, 255, 0), Color.FromArgb(225, 0, 255, 0));
-            SetWarningColors(Color.FromArgb(225, 125, 125, 0), Color.FromArgb(225, 255, 255, 0), Color.FromArgb(225, 255, 255, 0));
-            SetErrorColors(Color.FromArgb(225, 125, 0, 0), Color.FromArgb(225, 255, 0, 0), Color.FromArgb(225, 255, 0, 0));
-        }//private void SetColors() {
-
-        public void SetPrimaryColors(Color backgroundColor, Color boarderColor, Color fontColor) {
-            PrimaryBackgroundColor = backgroundColor;
-            PrimaryBorderColor = boarderColor;
-            PrimaryFontColor = fontColor;
-        }//public void SetPrimaryColors(Color backgroundColor, Color boarderColor, Color fontColor) {
-
-        public void SetWarningColors(Color backgroundColor, Color boarderColor, Color fontColor) {
-            WarningBackgroundColor = backgroundColor;
-            WarningBorderColor = boarderColor;
-            WarningFontColor = fontColor;
-        }//public void SetWarningColors(Color backgroundColor, Color boarderColor, Color fontColor) {
-
-        public void SetErrorColors(Color backgroundColor, Color boarderColor, Color fontColor) {
-            ErrorBackgroundColor = backgroundColor;
-            ErrorBorderColor = boarderColor;
-            ErrorFontColor = fontColor;
-        }//public void SetErrorColors(Color backgroundColor, Color boarderColor, Color fontColor) {
-
         private void InstatiateBorder() {
             SetBorderXName(boarderXName);
             SetBorderCornerRadius(borderCornerRadius);
@@ -91,61 +67,11 @@ namespace src {
             SetTextBlockVerticalAlignment(textBlockVerticalAlignment);
         }//private void InstatiateTextBlock() {
 
-        public void SetBorderXName(string boarderXName) {
-            Toastie.Name = boarderXName;
-        }//public void SetBorderXName(string boarderXName) {
-
-        public void SetBorderCornerRadius(CornerRadius borderCornerRadius) {
-            Toastie.CornerRadius = borderCornerRadius;
-        }//public void SetBorderCornerRadius(CornerRadius borderCornerRadius) {
-
-        public void SetBorderWidth(int borderWidth) {
-            Toastie.Width = borderWidth;
-        }//public void SetBorderWidth(int borderWidth) {
-
-        public void SetBorderHeight(int borderHeight) {
-            Toastie.Height = borderHeight;
-        }//public void SetBorderHeight(int borderHeight) {
-
-        public void SetBorderHorizontalAlignment(HorizontalAlignment borderHorizontalAlignment) {
-            Toastie.HorizontalAlignment = borderHorizontalAlignment;
-        }//public void SetBorderHorizontalAlignment(HorizontalAlignment borderHorizontalAlignment) {
-
-        public void SetBorderVerticalAlignment(VerticalAlignment borderVerticalAlignment) {
-            Toastie.VerticalAlignment = borderVerticalAlignment;
-        }//public void SetBorderVerticalAlignment(VerticalAlignment borderVerticalAlignment) {
-
-        public void SetBorderMargin(double borderLeftMargin,double borderTopMargin,double borderRightMargin,double borderBottomMargin) {
-            Toastie.Margin = new Thickness(borderLeftMargin, borderTopMargin, borderRightMargin, borderBottomMargin);
-        }//public void SetBorderMargin(double borderLeftMargin,double borderTopMargin,double borderRightMargin,double borderBottomMargin) {
-
-        public void SetBorderThickness(Thickness borderThickness) {
-            Toastie.BorderThickness = borderThickness;
-        }//public void SetBorderThickness(Thickness borderThickness) {
-
-        public void SetTextBlockXName(string textBlockXName) {
-            ToastieText.Name = textBlockXName;
-        }//public void SetTextBlockXName(string textBlockXName) {
-
-        public void SetTextBlockTextAlignment(TextAlignment textBlockTextAlignment) {
-            ToastieText.TextAlignment = textBlockTextAlignment;
-        }//public void SetTextBlockTextAlignment(TextAlignment textBlockTextAlignment) {
-
-        public void SetTextBlockMargin(Thickness margin) {
-            ToastieText.Margin = margin;
-        }//public void SetTextBlockMargin(Thickness margin) {
-
-        public void SetTextBlockMargin(double leftMargin, double topMargin,double rightMargin, double bottomMargin) {
-            ToastieText.Margin = new Thickness(leftMargin, topMargin, rightMargin, bottomMargin);
-        }//public void SetTextBlockMargin(double leftMargin, double topMargin,double rightMargin, double bottomMargin) {
-
-        public void SetTextBlockTextWrapping(TextWrapping TextWrapping) {
-            ToastieText.TextWrapping = TextWrapping;
-        }//public void SetTextBlockTextWrapping(TextWrapping TextWrapping) {
-
-        public void SetTextBlockVerticalAlignment(VerticalAlignment textBlockVerticalAlignment) {
-            ToastieText.VerticalAlignment = textBlockVerticalAlignment;
-        }//public void SetTextBlockVerticalAlignment(VerticalAlignment textBlockVerticalAlignment) {
+        private void SetColors() {
+            SetPrimaryColors(Color.FromArgb(225, 0, 125, 0), Color.FromArgb(225, 0, 255, 0), Color.FromArgb(225, 0, 255, 0));
+            SetWarningColors(Color.FromArgb(225, 125, 125, 0), Color.FromArgb(225, 255, 255, 0), Color.FromArgb(225, 255, 255, 0));
+            SetErrorColors(Color.FromArgb(225, 125, 0, 0), Color.FromArgb(225, 255, 0, 0), Color.FromArgb(225, 255, 0, 0));
+        }//private void SetColors() {
 
         public Border GetToast() {
             return Toastie;
@@ -184,5 +110,79 @@ namespace src {
             };
             timer.Start();
         }//public void PopToastie(string message, ToastColors tc, int seconds) {
+
+        public void SetBorderCornerRadius(CornerRadius borderCornerRadius) {
+            Toastie.CornerRadius = borderCornerRadius;
+        }//public void SetBorderCornerRadius(CornerRadius borderCornerRadius) {
+
+        public void SetBorderHeight(int borderHeight) {
+            Toastie.Height = borderHeight;
+        }//public void SetBorderHeight(int borderHeight) {
+
+        public void SetBorderHorizontalAlignment(HorizontalAlignment borderHorizontalAlignment) {
+            Toastie.HorizontalAlignment = borderHorizontalAlignment;
+        }//public void SetBorderHorizontalAlignment(HorizontalAlignment borderHorizontalAlignment) {
+
+        public void SetBorderMargin(double borderLeftMargin, double borderTopMargin, double borderRightMargin, double borderBottomMargin) {
+            Toastie.Margin = new Thickness(borderLeftMargin, borderTopMargin, borderRightMargin, borderBottomMargin);
+        }//public void SetBorderMargin(double borderLeftMargin,double borderTopMargin,double borderRightMargin,double borderBottomMargin) {
+
+        public void SetBorderThickness(Thickness borderThickness) {
+            Toastie.BorderThickness = borderThickness;
+        }//public void SetBorderThickness(Thickness borderThickness) {
+
+        public void SetBorderVerticalAlignment(VerticalAlignment borderVerticalAlignment) {
+            Toastie.VerticalAlignment = borderVerticalAlignment;
+        }//public void SetBorderVerticalAlignment(VerticalAlignment borderVerticalAlignment) {
+
+        public void SetBorderWidth(int borderWidth) {
+            Toastie.Width = borderWidth;
+        }//public void SetBorderWidth(int borderWidth) {
+
+        public void SetBorderXName(string boarderXName) {
+            Toastie.Name = boarderXName;
+        }//public void SetBorderXName(string boarderXName) {
+
+        public void SetErrorColors(Color backgroundColor, Color boarderColor, Color fontColor) {
+            ErrorBackgroundColor = backgroundColor;
+            ErrorBorderColor = boarderColor;
+            ErrorFontColor = fontColor;
+        }//public void SetErrorColors(Color backgroundColor, Color boarderColor, Color fontColor) {
+
+        public void SetPrimaryColors(Color backgroundColor, Color boarderColor, Color fontColor) {
+            PrimaryBackgroundColor = backgroundColor;
+            PrimaryBorderColor = boarderColor;
+            PrimaryFontColor = fontColor;
+        }//public void SetPrimaryColors(Color backgroundColor, Color boarderColor, Color fontColor) {
+
+        public void SetTextBlockMargin(Thickness margin) {
+            ToastieText.Margin = margin;
+        }//public void SetTextBlockMargin(Thickness margin) {
+
+        public void SetTextBlockMargin(double leftMargin, double topMargin, double rightMargin, double bottomMargin) {
+            ToastieText.Margin = new Thickness(leftMargin, topMargin, rightMargin, bottomMargin);
+        }//public void SetTextBlockMargin(double leftMargin, double topMargin,double rightMargin, double bottomMargin) {
+
+        public void SetTextBlockTextAlignment(TextAlignment textBlockTextAlignment) {
+            ToastieText.TextAlignment = textBlockTextAlignment;
+        }//public void SetTextBlockTextAlignment(TextAlignment textBlockTextAlignment) {
+
+        public void SetTextBlockTextWrapping(TextWrapping TextWrapping) {
+            ToastieText.TextWrapping = TextWrapping;
+        }//public void SetTextBlockTextWrapping(TextWrapping TextWrapping) {
+
+        public void SetTextBlockVerticalAlignment(VerticalAlignment textBlockVerticalAlignment) {
+            ToastieText.VerticalAlignment = textBlockVerticalAlignment;
+        }//public void SetTextBlockVerticalAlignment(VerticalAlignment textBlockVerticalAlignment) {
+
+        public void SetTextBlockXName(string textBlockXName) {
+            ToastieText.Name = textBlockXName;
+        }//public void SetTextBlockXName(string textBlockXName) {
+
+        public void SetWarningColors(Color backgroundColor, Color boarderColor, Color fontColor) {
+            WarningBackgroundColor = backgroundColor;
+            WarningBorderColor = boarderColor;
+            WarningFontColor = fontColor;
+        }//public void SetWarningColors(Color backgroundColor, Color boarderColor, Color fontColor) {
     }//class Toaster {
 }//namespace src {
