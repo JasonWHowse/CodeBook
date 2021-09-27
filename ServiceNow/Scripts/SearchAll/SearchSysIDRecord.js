@@ -12,7 +12,6 @@ function SearchSysIDRecord(querySysID){
       ){
         var gr2 = new GlideRecord(gr.name.toString());
         if(gr2.get('sys_id', querySysID)){
-          gs.log('jh21341'+ln15);
           return gr2;  
         }
       }
