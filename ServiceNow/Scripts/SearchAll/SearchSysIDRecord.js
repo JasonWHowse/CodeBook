@@ -1,4 +1,4 @@
-function SearchSysIDRecord(querySysID) {
+function SearchSysIDRecord(querySysID){
   var gr = new GlideRecord('sys_db_object');
   gr.addQuery('sys_update_nameISNOTEMPTY');
   gr.query();
@@ -12,9 +12,11 @@ function SearchSysIDRecord(querySysID) {
       ){
         var gr2 = new GlideRecord(gr.name.toString());
         if(gr2.get('sys_id', querySysID)){
-          gr2;  
+          gs.log('jh21341'+ln15);
+          return gr2;  
         }
       }
     }catch(error){}
   }
+  return null;
 }
