@@ -12,7 +12,9 @@ function SearchSysIDRecord(querySysID){
       ){
         var gr2 = new GlideRecord(gr.name.toString());
         if(gr2.get('sys_id', querySysID)){
-          return gr2;  
+          if(gr2.sys_id==querySysID){
+            return gr2;  
+          }
         }
       }
     }catch(error){}
