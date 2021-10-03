@@ -11,4 +11,4 @@ example on how to run the file
 
 <h2>RollBackBranch.cmd</h2>
 
-<code>RollBack.cmd sandbox "https://github.com/chrisnft/sandbox.git" af783e8ef31f5cad961e0f7c329387939541b54b C++_Main >> Rollback.log</code>
+<code>RollBackBranch.cmd sandbox "https://github.com/chrisnft/sandbox.git" af783e8ef31f5cad961e0f7c329387939541b54b C++_Main >> Rollback.log</code>
