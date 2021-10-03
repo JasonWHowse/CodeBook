@@ -1,4 +1,7 @@
 <h1>Hard Roll Back Batch file</h1>
+
+<h1>MAKE A CLONE BACK UP OF THE ENTIRE REPO BEFORE USING THIS</h1>
+
 <h2>RollBack.cmd</h2>
 
 A batch file to hard roll back to a particular commit on git hub, this will delete anything commited after only use as a last resort
