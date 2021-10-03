@@ -1,4 +1,4 @@
-rem first variable is the project name, second variable is the link to the repo, hash of the commit to roll back to
+rem first variable is the project name, second variable is the link to the repo, 3rd variable hash of the commit to roll back to
 mkdir gitRollbkdir
 cd gitRollbkdir
 git clone %2
