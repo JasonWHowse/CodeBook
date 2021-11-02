@@ -1,0 +1,111 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v28="http://fedex.com/ws/ship/v28">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <v28:ProcessShipmentRequest>
+         <v28:WebAuthenticationDetail>
+            <v28:UserCredential>
+               <v28:Key>${UserCredential.Key}</v28:Key>
+               <v28:Password>${UserCredential.Password}</v28:Password>
+            </v28:UserCredential>
+         </v28:WebAuthenticationDetail>
+         <v28:ClientDetail>
+            <v28:AccountNumber>${ClientDetail.AccountNumber}</v28:AccountNumber>
+            <v28:MeterNumber>${ClientDetail.MeterNumber}</v28:MeterNumber>       
+         </v28:ClientDetail>
+         <v28:TransactionDetail>
+            <v28:CustomerTransactionId>MPS Master Shipment from the Intergraph Hardware Depot</v28:CustomerTransactionId>
+         </v28:TransactionDetail>
+         <v28:Version>
+            <v28:ServiceId>ship</v28:ServiceId>
+            <v28:Major>17</v28:Major>
+            <v28:Intermediate>0</v28:Intermediate>
+            <v28:Minor>0</v28:Minor>
+         </v28:Version>
+         <v28:RequestedShipment>
+            <v28:ShipTimestamp>${RequestedShipment.ShipTimestamp}</v28:ShipTimestamp>
+            <v28:DropoffType>BUSINESS_SERVICE_CENTER</v28:DropoffType>
+            <v28:ServiceType>${RequestedShipment.ServiceType}</v28:ServiceType>
+            <v28:PackagingType>YOUR_PACKAGING</v28:PackagingType>       
+            <v28:Shipper>        
+               <v28:Contact>                
+                  <v28:PersonName>${Shipper.Contact.PersonName}</v28:PersonName>            
+                  <v28:CompanyName>${Shipper.Contact.CompanyName}</v28:CompanyName>                  
+                  <v28:PhoneNumber>${Shipper.Contact.PhoneNumber}</v28:PhoneNumber>                 
+               </v28:Contact>
+               <v28:Address>
+                  <!--0 to 2 repetitions:-->
+                  <v28:StreetLines>${Shipper.Address.StreetLines0}</v28:StreetLines>
+                  <v28:StreetLines>${Shipper.Address.StreetLines1}</v28:StreetLines>
+                  <v28:City>${Shipper.Address.City}</v28:City>
+                  <v28:StateOrProvinceCode>${Shipper.Address.StateOrProvinceCode}</v28:StateOrProvinceCode>
+                  <v28:PostalCode>${Shipper.Address.PostalCode}</v28:PostalCode>                 
+                  <v28:CountryCode>${Shipper.Address.CountryCode}</v28:CountryCode>
+               </v28:Address>
+            </v28:Shipper>
+            <v28:Recipient>              
+               <v28:Contact>                 
+                  <v28:PersonName>${Recipient.Contact.PersonName}</v28:PersonName>                 
+                  <v28:CompanyName>${Recipient.Contact.CompanyName}</v28:CompanyName>    
+                  <v28:PhoneNumber>${Recipient.Contact.PhoneNumber}</v28:PhoneNumber>                  
+               </v28:Contact>
+               <v28:Address>
+                  <!--0 to 2 repetitions:-->
+                  <v28:StreetLines>${Recipient.Address.StreetLines0}</v28:StreetLines>
+                  <v28:StreetLines>${Recipient.Address.StreetLines1}</v28:StreetLines>
+                  <v28:City>${Recipient.Address.City}</v28:City>
+                  <v28:StateOrProvinceCode>${Recipient.Address.StateOrProvinceCode}</v28:StateOrProvinceCode>
+                  <v28:PostalCode>${Recipient.Address.PostalCode}</v28:PostalCode>                  
+                  <v28:CountryCode>${Recipient.Address.CountryCode}</v28:CountryCode>                  
+               </v28:Address>
+            </v28:Recipient>
+            <v28:ShippingChargesPayment>
+               <v28:PaymentType>SENDER</v28:PaymentType>
+               <v28:Payor>
+                  <v28:ResponsibleParty>
+                     <v28:AccountNumber>${ResponsibleParty.AccountNumber}</v28:AccountNumber>  
+                  </v28:ResponsibleParty>
+               </v28:Payor>
+            </v28:ShippingChargesPayment>
+			${SpecialServicesRequested}
+            <v28:LabelSpecification>
+               <v28:LabelFormatType>${LabelSpecification.LabelFormatType}</v28:LabelFormatType>
+               <v28:ImageType>${LabelSpecification.ImageType}</v28:ImageType>
+               <v28:LabelStockType>${LabelSpecification.LabelStockType}</v28:LabelStockType>     
+			   <v28:LabelPrintingOrientation>BOTTOM_EDGE_OF_TEXT_FIRST</v28:LabelPrintingOrientation>
+				  <v28:LabelRotation>NONE</v28:LabelRotation>
+			</v28:LabelSpecification>
+
+
+
+            <v28:RateRequestTypes>ACCOUNT</v28:RateRequestTypes>
+            <!--Used by children:
+            <v28:MasterTrackingId>
+               <v28:TrackingIdType>${MasterTrackingId.TrackingIdType}</v28:TrackingIdType>
+               <v28:FormId>${MasterTrackingId.FormId}</v28:FormId>
+               <v28:UspsApplicationId>${MasterTrackingId.UspsApplicationId}</v28:UspsApplicationId>
+               <v28:TrackingNumber>1234</v28:TrackingNumber>
+            </v28:MasterTrackingId> -->
+			 ${MasterTrackingId.TrackingNumber}
+            <v28:PackageCount>${RequestedShipment.PackageCount}</v28:PackageCount>            
+            <v28:RequestedPackageLineItems>
+               <v28:SequenceNumber>${Description.SequenceNumber}</v28:SequenceNumber>           
+               <v28:Weight>
+                  <v28:Units>${Weight.Units}</v28:Units>
+                  <v28:Value>${Weight.Value}</v28:Value> 
+               </v28:Weight>               
+               <v28:ItemDescription>${RequestedPackageLineItems.ItemDescription}</v28:ItemDescription>               
+               <!--0 to 10 repetitions:-->
+               <v28:CustomerReferences>
+                  <v28:CustomerReferenceType>CUSTOMER_REFERENCE</v28:CustomerReferenceType>
+                  <v28:Value>${CustomerReferences.CustomerReference}</v28:Value>
+               </v28:CustomerReferences>
+               <v28:CustomerReferences>
+                  <v28:CustomerReferenceType>INVOICE_NUMBER</v28:CustomerReferenceType>
+                  <v28:Value>${CustomerReferences.InvoiceNumber}</v28:Value>
+               </v28:CustomerReferences>
+            </v28:RequestedPackageLineItems>
+		   
+         </v28:RequestedShipment>
+      </v28:ProcessShipmentRequest>
+   </soapenv:Body>
+</soapenv:Envelope>
