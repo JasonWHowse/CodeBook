@@ -84,4 +84,22 @@ function SearchAllByLabel(recordLabel, labelValue){
 }
 
 SearchAllByLabel('number', 'RITM0755298');
+
+function SearchTextRecord(target) {
+    var output = "";
+    var gr = new GlideRecord('sys_db_object');
+    gr.addQuery('sys_scope=global');
+    gr.query();
+    while (gr.next()) {
+        var gr2 = new GlideRecord(gr.name.toString());
+        gr2.addQuery('GOTO123TEXTQUERY321=' + target);
+        gr2.query();
+        while (gr.next()) {
+            output += gr.name.toString() + gr2.sys_id + '\r\n';
+        }
+    }
+    return output;
+}
+
+SearchTextRecord('world');
 */
