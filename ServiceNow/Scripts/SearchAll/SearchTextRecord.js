@@ -1,5 +1,5 @@
 function SearchTextRecord(target, target2, start, end) {
-    var output = "start" + '\r\n';
+    var output = '';
     var gr = new GlideRecord('sys_db_object');
     gr.addQuery('sys_update_nameISNOTEMPTY^sys_scope=global^name!=v_metadata_parent^name!=v_metadata_descendant');
     gr.query();
