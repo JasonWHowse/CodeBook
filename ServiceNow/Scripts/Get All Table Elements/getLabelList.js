@@ -1,19 +1,19 @@
-function getLabelList(table) {
+function getLabelList(table, hasNext) {
     var tableList = "";
+    if (hasNext != false && hasNext) {
+        hasNext = true;
+    } else if (!hasNext && hasNext == false) {
+        tableList = "^name=" + table;
+    }
     var searchTable = table;
-    var hasNext = true;
     while (hasNext) {
         var gr = new GlideRecord('sys_db_object');
-        gr .addQuery('name=' + searchTable);
+        gr.addQuery('name=' + searchTable);
         tableList += ((tableList.length == 0) ? "^name=" : "^ORname=") + searchTable;
         gr.query();
 
-        if (gr.next()) {
-            if (gr.super_class.name) {
-                searchTable = gr.super_class.name;
-            } else {
-                hasNext = false;
-            }
+        if (gr.next() && gr.super_class.name) {
+            searchTable = gr.super_class.name;
         } else {
             hasNext = false;
         }
@@ -35,3 +35,5 @@ function getLabelList(table) {
         return output;
     }
 }
+
+getLabelList('wm_order');
